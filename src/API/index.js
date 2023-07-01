@@ -10,14 +10,29 @@ const options = {
         tr_longitude: '109.149359',
     },
     headers: {
-        'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+        'X-RapidAPI-Key': 'b560460b39msh7a77e09e3268cbfp1f229cjsnf830ea6bd72a',
         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
     }
 };
 
 export const getPlacesData = async (sw, ne) => {
     try {
-        const { data: { data } } = await axios.get(url, options)
+        const {
+            data: { data },
+        } = await axios.get(url, {
+            params: {
+                bl_latitude: sw.lat,
+                tr_latitude: ne.lat,
+                bl_longitude: sw.lng,
+                tr_longitude: ne.lng,
+            },
+            headers: {
+                'X-RapidAPI-Key': 'b560460b39msh7a77e09e3268cbfp1f229cjsnf830ea6bd72a',
+                'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+            }
+        });
+        // console.log(data)
+        return data;
     } catch (error) {
         console.log(`Fetch data Error : ${error}`)
     }
