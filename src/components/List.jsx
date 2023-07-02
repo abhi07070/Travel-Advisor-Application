@@ -59,7 +59,7 @@ const List = ({ places, isLoading }) => {
                 direction={'column'}
             >
                 {
-                    places && places.map((place) => <PlaceDetail place={place} key={i} />)
+                    places && places.map((place,i) => place && place.name && <PlaceDetail place={place} key={i} />)
                 }
             </Flex>
         </Flex>

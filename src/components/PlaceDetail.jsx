@@ -1,10 +1,9 @@
 import { Flex } from '@chakra-ui/react'
 import { Badge, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Rating } from "@material-ui/lab";
 import { IoLocation } from "react-icons/io5";
 
-const PlaceDetail = ({ place}) => {
-
+const PlaceDetail = ({ place }) => {
     return (
         <Flex
             bg={"whiteAlpha.900"}
@@ -36,7 +35,7 @@ const PlaceDetail = ({ place}) => {
                             fontWeight={"500"}
                             isTruncated
                         >
-                           {place.name}
+                            {place.name}
                         </Text>
 
                         <Text fontSize={"sm"} fontWeight={"500"} color={"gray.500"}>
@@ -46,7 +45,7 @@ const PlaceDetail = ({ place}) => {
 
                     {/* Ratings */}
                     <Flex alignItems={"center"} width={"full"}>
-                        {/* <Rating size="small" value={Number(place.rating)} readOnly /> */}
+                        <Rating size="small" value={Number(place.rating)} readOnly />
                         <Text
                             fontSize={"sm"}
                             fontWeight={"500"}

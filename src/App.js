@@ -5,33 +5,38 @@ import List from './components/List';
 import Map from './components/Map';
 import { useEffect, useState } from 'react';
 import { getPlacesData } from './API';
-// import PlaceDetail from './components/PlaceDetail';
-
+import { Rating } from "@material-ui/lab";
 
 function App() {
-
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState(null)
+  const [bounds, setBounds] = useState(null);
   const [type, setType] = useState('restaurants');
   const [ratings, setRatings] = useState("");
-  const [places, setPlaces] = useState([])
+  const [places, setPlaces] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // get the users current location on initial stage
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setCoordinates({ lat: latitude, lng: longitude })
-    })
+      setCoordinates({ lat: latitude, lng: longitude });
+    });
   }, []);
 
   useEffect(() => {
-    setIsLoading(true)
-    getPlacesData(bounds?.sw, bounds?.ne).then((data) => {
+    const filteredData = places?.filter((place) => place.rating === ratings) ?? [];
+    console.log(filteredData)
+    setFilteredPlaces(filteredData);
+  }, [ratings, places]);
+
+
+  useEffect(() => {
+    setIsLoading(true);
+    getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
       console.log(data)
       setPlaces(data);
       setIsLoading(false);
-    })
-  }, [coordinates, bounds])
+    });
+  }, [type, coordinates, bounds]);
 
   return (
     <Flex
@@ -44,13 +49,13 @@ function App() {
       position={"relative"}
     >
       <Header setType={setType} setRatings={setRatings} setCoordinates={setCoordinates} />
-      <List places={places} isLoading={isLoading} />
+      <List places={filteredPlaces.length ? filteredPlaces : places} isLoading={isLoading} />
       <Map
         setCoordinates={setCoordinates}
         coordinates={coordinates}
         setBounds={setBounds}
+        places={filteredPlaces.length ? filteredPlaces : places}
       />
-      {/* <PlaceDetail /> */}
     </Flex>
   );
 }

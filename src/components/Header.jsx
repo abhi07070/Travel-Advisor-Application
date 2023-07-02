@@ -1,10 +1,23 @@
 import { Box } from '@chakra-ui/react';
 import { Flex, InputGroup, InputRightElement, Input, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import { Rating } from '@mui/material';
+
 import { Autocomplete } from '@react-google-maps/api';
-import { BiChevronDown, BiHotel, BiMapAlt, BiRestaurant, BiSearch, BiStar , BiCalendar} from 'react-icons/bi';
+
+import { BiChevronDown, BiHotel, BiMapAlt, BiRestaurant, BiSearch, BiStar, BiCalendar } from 'react-icons/bi';
+import { Rating } from "@material-ui/lab";
+import { useState } from 'react';
 
 const Header = ({ setType, setRatings, setCoordinates }) => {
+
+    const [autocomplete, setAutocomplete] = useState(null);
+    const onLoad = (autoC) => setAutocomplete(autoC);
+
+    const onPlaceChanged = () => {
+        const lat = autocomplete.getPlace().geometry.location.lat();
+        const lng = autocomplete.getPlace().geometry.location.lng();
+        setCoordinates({ lat, lng });
+    };
+
     return (
         <Flex
             position={"absolute"}
@@ -16,10 +29,6 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
             zIndex={101}
         >
             <Flex>
-                {/* <Autocomplete> */}
-
-                {/* </Autocomplete> */}
-
                 <Flex
                     alignItems={"center"}
                     justifyContent={"center"}
@@ -46,23 +55,27 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                             </MenuButton>
                         </Menu>
                     </Flex>
-                    <InputGroup width={'55vw'} shadow='lg' rounded='xl'>
-                        <InputRightElement
-                            pointerEvents={'none'}
-                            children={<BiSearch color='gray' fontSize={20} />}
-                        />
-                        <Input
-                            type={'text'}
-                            placeholder='Where to ?'
-                            variant={'filled'}
-                            fontSize={18}
-                            bg={'white'}
-                            color={'gray.700'}
-                            _hover={{ bg: 'whiteAlpha.800' }}
-                            _focus={{ bg: 'whiteAlpha.800' }}
-                            _placeholder={{ color: '' }}
-                        />
-                    </InputGroup>
+                    <Flex>
+                        {/* <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}> */}
+                            <InputGroup width={'55vw'} shadow='lg' rounded='xl'>
+                                <InputRightElement
+                                    pointerEvents={'none'}
+                                    children={<BiSearch color='gray' fontSize={20} />}
+                                />
+                                <Input
+                                    type={'text'}
+                                    placeholder='Where to ?'
+                                    variant={'filled'}
+                                    fontSize={18}
+                                    bg={'white'}
+                                    color={'gray.700'}
+                                    _hover={{ bg: 'whiteAlpha.800' }}
+                                    _focus={{ bg: 'whiteAlpha.800' }}
+                                    _placeholder={{ color: '' }}
+                                />
+                            </InputGroup>
+                        {/* </Autocomplete> */}
+                    </Flex>
                     <Flex
                         alignItems={"center"}
                         justifyContent={"center"}
@@ -70,7 +83,6 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                         py={2}
                         bg={"white"}
                         rounded={"full"}
-                        ml={4}
                         shadow="lg"
                         cursor={"pointer"}
                         _hover={{ bg: "gray.100" }}
@@ -78,11 +90,79 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                         transitionDuration={"0.3s"}
                     >
                         <Menu>
+                            <BiStar fontSize={25} />
                             <MenuButton mx={2} transition="all 0.2s" borderRadius={"md"}>
-                                Filters
+                                Choose ratings
                             </MenuButton>
+
+                            <MenuList>
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setRatings("")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"gray.700"}>
+                                        All Rating
+                                    </Text>
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setRatings("2.0")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        2.0
+                                    </Text>
+
+                                    <Rating size="small" value={2} readOnly />
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setRatings("3.0")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        3.0
+                                    </Text>
+
+                                    <Rating size="small" value={3} readOnly />
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setRatings("4.0")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        4.0
+                                    </Text>
+
+                                    <Rating size="small" value={4} readOnly />
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setRatings("5.0")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        5.0
+                                    </Text>
+
+                                    <Rating size="small" value={5} readOnly />
+                                </MenuItem>
+                            </MenuList>
                         </Menu>
+                        <BiChevronDown fontSize={25} />
                     </Flex>
+
                     <Flex
                         alignItems={"center"}
                         justifyContent={"center"}
@@ -106,10 +186,20 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("")}
+                                    onClick={() => setType("attractions")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"gray.700"}>
-                                        All Rating
+                                        Attractive Places
+                                    </Text>
+                                </MenuItem>
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setType("restaurants")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"gray.700"}>
+                                        Restaurants
                                     </Text>
                                 </MenuItem>
 
@@ -117,53 +207,13 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings(2)}
+                                    onClick={() => setType("hotels")}
                                 >
-                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
-                                        2.0
+                                    <Text fontSize={20} fontWeight={500} color={"gray.700"}>
+                                        Hotels
                                     </Text>
 
-                                    {/* <Rating size="small" value={2} readOnly /> */}
                                 </MenuItem>
-
-                                {/* <MenuItem
-                                    display={"flex"}
-                                    alignItems={"center"}
-                                    justifyContent="space-around"
-                                    onClick={() => setRatings(3)}
-                                >
-                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
-                                        3.0
-                                    </Text>
-
-                                    <Rating size="small" value={3} readOnly />
-                                </MenuItem>
-
-                                <MenuItem
-                                    display={"flex"}
-                                    alignItems={"center"}
-                                    justifyContent="space-around"
-                                    onClick={() => setRatings(4)}
-                                >
-                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
-                                        4.0
-                                    </Text>
-
-                                    <Rating size="small" value={4} readOnly />
-                                </MenuItem>
-
-                                <MenuItem
-                                    display={"flex"}
-                                    alignItems={"center"}
-                                    justifyContent="space-around"
-                                    onClick={() => setRatings(5)}
-                                >
-                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
-                                        4.5
-                                    </Text>
-
-                                    <Rating size="small" value={5} readOnly />
-                                </MenuItem> */}
                             </MenuList>
                         </Menu>
                     </Flex>
