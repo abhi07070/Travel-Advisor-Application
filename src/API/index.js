@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getPlacesData = async (type, sw, ne) => {
-    console.log(type)
+    // console.log(type)
     try {
         const {
             data: { data },
@@ -17,7 +17,7 @@ export const getPlacesData = async (type, sw, ne) => {
                 'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
             }
         });
-        console.log(data)
+        // console.log(data)
         return data;
     } catch (error) {
         console.log(`Fetch data Error : ${error}`)

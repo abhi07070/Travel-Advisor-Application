@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     const filteredData = places?.filter((place) => place.rating === ratings) ?? [];
-    console.log(filteredData)
+    // console.log(filteredData)
     setFilteredPlaces(filteredData);
   }, [ratings, places]);
 
@@ -32,7 +32,7 @@ function App() {
   useEffect(() => {
     setIsLoading(true);
     getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
-      console.log(data)
+      // console.log(data)
       setPlaces(data);
       setIsLoading(false);
     });
