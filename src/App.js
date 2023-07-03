@@ -12,6 +12,7 @@ function App() {
   const [bounds, setBounds] = useState(null);
   const [type, setType] = useState('restaurants');
   const [ratings, setRatings] = useState("");
+  const [distance, setDistance] = useState("");
   const [places, setPlaces] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,15 +25,19 @@ function App() {
 
   useEffect(() => {
     const filteredData = places?.filter((place) => place.rating === ratings) ?? [];
-    // console.log(filteredData)
     setFilteredPlaces(filteredData);
   }, [ratings, places]);
+
+  useEffect(() => {
+    const filteredDistance = places !== undefined ? places.filter((place) => place.name && place.distance_string && place.distance_string.split(" ")[0] <= distance) : [];
+    // setDistance(filteredDistance);
+    setFilteredPlaces(filteredDistance);
+  }, [distance, places]);
 
 
   useEffect(() => {
     setIsLoading(true);
     getPlacesData(type, bounds?.sw, bounds?.ne).then((data) => {
-      // console.log(data)
       setPlaces(data);
       setIsLoading(false);
     });
@@ -48,7 +53,7 @@ function App() {
       maxHeight={"100vh"}
       position={"relative"}
     >
-      <Header setType={setType} setRatings={setRatings} setCoordinates={setCoordinates} />
+      <Header setType={setType} setRatings={setRatings} setCoordinates={setCoordinates} setDistance={setDistance} />
       <List places={filteredPlaces.length ? filteredPlaces : places} isLoading={isLoading} />
       <Map
         setCoordinates={setCoordinates}

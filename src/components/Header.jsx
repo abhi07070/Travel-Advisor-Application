@@ -3,11 +3,12 @@ import { Flex, InputGroup, InputRightElement, Input, Menu, MenuButton, MenuItem,
 
 import { Autocomplete } from '@react-google-maps/api';
 
-import { BiChevronDown, BiHotel, BiMapAlt, BiRestaurant, BiSearch, BiStar, BiCalendar } from 'react-icons/bi';
+import { BiChevronDown, BiMapAlt, BiSearch, BiStar } from 'react-icons/bi';
 import { Rating } from "@material-ui/lab";
 import { useState } from 'react';
+// import RangeSlider from './RangeSlider';
 
-const Header = ({ setType, setRatings, setCoordinates }) => {
+const Header = ({ setType, setDistance, setCoordinates }) => {
 
     const [autocomplete, setAutocomplete] = useState(null);
     const onLoad = (autoC) => setAutocomplete(autoC);
@@ -41,7 +42,6 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                         py={2}
                         bg={"white"}
                         rounded={"full"}
-                        ml={4}
                         shadow="lg"
                         cursor={"pointer"}
                         _hover={{ bg: "gray.100" }}
@@ -49,31 +49,91 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                         transitionDuration={"0.3s"}
                     >
                         <Menu>
-                            <BiCalendar fontSize={25} />
+                            <BiMapAlt fontSize={25} />
                             <MenuButton mx={2} transition="all 0.2s" borderRadius={"md"}>
-                                Enter Dates
+                                All Distance
                             </MenuButton>
+
+                            <MenuList>
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setDistance("1")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"gray.700"}>
+                                        1km
+                                    </Text>
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setDistance("2")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        2km
+                                    </Text>
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setDistance("3")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        3km
+                                    </Text>
+
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setDistance("4")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        4km
+                                    </Text>
+                                </MenuItem>
+
+                                <MenuItem
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent="space-around"
+                                    onClick={() => setDistance("5")}
+                                >
+                                    <Text fontSize={20} fontWeight={500} color={"orange.500"}>
+                                        5km
+                                    </Text>
+
+                                </MenuItem>
+                            </MenuList>
                         </Menu>
+                        <BiChevronDown fontSize={25} />
                     </Flex>
                     <Flex>
                         {/* <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}> */}
-                            <InputGroup width={'55vw'} shadow='lg' rounded='xl'>
-                                <InputRightElement
-                                    pointerEvents={'none'}
-                                    children={<BiSearch color='gray' fontSize={20} />}
-                                />
-                                <Input
-                                    type={'text'}
-                                    placeholder='Where to ?'
-                                    variant={'filled'}
-                                    fontSize={18}
-                                    bg={'white'}
-                                    color={'gray.700'}
-                                    _hover={{ bg: 'whiteAlpha.800' }}
-                                    _focus={{ bg: 'whiteAlpha.800' }}
-                                    _placeholder={{ color: '' }}
-                                />
-                            </InputGroup>
+                        <InputGroup width={'55vw'} shadow='lg' rounded='xl'>
+                            <InputRightElement
+                                pointerEvents={'none'}
+                                children={<BiSearch color='gray' fontSize={20} />}
+                            />
+                            <Input
+                                type={'text'}
+                                placeholder='Where to ?'
+                                variant={'filled'}
+                                fontSize={18}
+                                bg={'white'}
+                                color={'gray.700'}
+                                _hover={{ bg: 'whiteAlpha.800' }}
+                                _focus={{ bg: 'whiteAlpha.800' }}
+                                _placeholder={{ color: '' }}
+                            />
+                        </InputGroup>
                         {/* </Autocomplete> */}
                     </Flex>
                     <Flex
@@ -100,7 +160,7 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("")}
+                                    onClick={() => setDistance("")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"gray.700"}>
                                         All Rating
@@ -111,7 +171,7 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("2.0")}
+                                    onClick={() => setDistance("2.0")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"orange.500"}>
                                         2.0
@@ -124,7 +184,7 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("3.0")}
+                                    onClick={() => setDistance("3.0")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"orange.500"}>
                                         3.0
@@ -137,7 +197,7 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("4.0")}
+                                    onClick={() => setDistance("4.0")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"orange.500"}>
                                         4.0
@@ -150,7 +210,7 @@ const Header = ({ setType, setRatings, setCoordinates }) => {
                                     display={"flex"}
                                     alignItems={"center"}
                                     justifyContent="space-around"
-                                    onClick={() => setRatings("5.0")}
+                                    onClick={() => setDistance("5.0")}
                                 >
                                     <Text fontSize={20} fontWeight={500} color={"orange.500"}>
                                         5.0
